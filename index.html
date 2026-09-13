@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barmaan Personal Web</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #07152e, #102f5c, #061226);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.box {
+    width: 100%;
+    max-width: 650px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 13px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 10px;
+    background: #1976d2;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #2196f3;
+}
+
+.forgot {
+    background: #555;
+}
+
+.forgot:hover {
+    background: #666;
+}
+
+.orange {
+    background: #e67e22;
+}
+
+.orange:hover {
+    background: #f39c12;
+}
+
+.red {
+    background: #c62828;
+}
+
+.red:hover {
+    background: #e53935;
+}
+
+.green {
+    background: #2e7d32;
+}
+
+.green:hover {
+    background: #388e3c;
+}
+
+.hidden {
+    display: none;
+}
+
+.mainButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.mainButtons button {
+    margin: 0;
+}
+
+.card {
+    background: rgba(255,255,255,0.06);
+    padding: 15px;
+    border-radius: 14px;
+    margin-top: 15px;
+}
+
+video {
+    width: 100%;
+    border-radius: 12px;
+    background: black;
+}
+
+@media (max-width: 500px) {
+    .mainButtons {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<!-- LOGIN PAGE -->
+<div id="loginPage">
+
+    <h1>Barmaan Personal Web</h1>
+
+    <p style="text-align:center;">
+        Enter the passcode
+    </p>
+
+    <input
+        type="password"
+        id="passInput"
+        placeholder="Passcode"
+    >
+
+    <button onclick="verifyPass()">
+        Enter
+    </button>
+
+    <button class="forgot" onclick="forgotPasscode()">
+        Forgot passcode?
+    </button>
+
+    <p id="loginMessage" style="text-align:center;"></p>
+
+</div>
+
+
+<!-- MAIN PAGE -->
+<div id="mainPage" class="hidden">
+
+    <h1>Welcome to Barmaan Personal Web!</h1>
+
+    <div class="mainButtons">
+
+        <button onclick="support()">
+            Microsoft Support Web
+        </button>
+
+        <button onclick="openRewards()">
+            Microsoft Rewards
+        </button>
+
+        <button onclick="openRewardsHelp()">
+            Microsoft Rewards Help
+        </button>
+
+        <button onclick="worldlyQuiz()">
+            Worldly Quiz
+        </button>
+
+    </div>
+
+    <button class="orange" onclick="showOtherLinks()">
+        Open Other Links
+    </button>
+
+    <!-- HELP CODE -->
+    <div id="helpBox" class="hidden card">
+
+        <h2>Help Code</h2>
+
+        <input
+            type="password"
+            id="helpInput"
+            placeholder="Enter Help Code"
+        >
+
+        <button onclick="verifyHelp()">
+            Unlock
+        </button>
+
+        <p id="helpMessage"></p>
+
+    </div>
+
+
+    <!-- OTHER LINKS -->
+    <div id="links" class="hidden">
+
+        <div class="card">
+
+            <h2>Other Links</h2>
+
+            <button onclick="go('https://adoption.microsoft.com/')">
+                Microsoft Adoption
+            </button>
+
+            <button onclick="go('https://account.microsoft.com/')">
+                Microsoft Account
+            </button>
+
+            <button onclick="go('https://www.microsoft.com/')">
+                Microsoft Main Website
+            </button>
+
+            <button onclick="go('https://forms.microsoft.com/')">
+                Microsoft Forms
+            </button>
+
+            <button onclick="go('https://sway.cloud.microsoft/')">
+                Microsoft Sway
+            </button>
+
+            <button onclick="go('https://www.google.com/travel/')">
+                Google Travel
+            </button>
+
+            <button onclick="go('https://myactivity.google.com/')">
+                Google Activity
+            </button>
+
+            <button onclick="go('https://www.google.com/')">
+                Google Main Web Page
+            </button>
+
+            <button onclick="thisManPage()">
+                This Man Web Page
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- WORLDLY QUIZ PAGE -->
+<div id="worldlyPage" class="hidden">
+
+    <h1>Worldly Quiz</h1>
+
+    <div class="card">
+
+        <h2>This game has not been released yet.</h2>
+
+        <p style="text-align:center;">
+            Please come back later.
+        </p>
+
+    </div>
+
+    <button onclick="backToMain()">
+        Back
+    </button>
+
+</div>
+
+
+<!-- THIS MAN PAGE -->
+<div id="thisManPage" class="hidden">
+
+    <h1>This Man</h1>
+
+    <div class="card">
+
+        <h2>Age Verification</h2>
+
+        <p>
+            This page requires age verification before continuing.
+        </p>
+
+        <button onclick="showThisManInfo()">
+            Continue
+        </button>
+
+        <button class="green" onclick="showAllowedPage()">
+            Allowed
+        </button>
+
+        <button class="red" onclick="showNotAllowedPage()">
+            Not allowed
+        </button>
+
+    </div>
+
+    <button onclick="backToMain()">
+        Back
+    </button>
+
+</div>
+
+
+<!-- THIS MAN INFORMATION PAGE -->
+<div id="thisManInfo" class="hidden">
+
+    <h1>This Man</h1>
+
+    <div class="card">
+
+        <h2>Information</h2>
+
+        <p>
+            This is the information page for This Man.
+        </p>
+
+        <button onclick="startCamera()">
+            Camera Verification
+        </button>
+
+        <button class="green" onclick="showAllowedPage()">
+            Allowed
+        </button>
+
+        <button class="red" onclick="showNotAllowedPage()">
+            Not allowed
+        </button>
+
+    </div>
+
+    <button onclick="backToMain()">
+        Back
+    </button>
+
+</div>
+
+
+<!-- CAMERA PAGE -->
+<div id="cameraPage" class="hidden">
+
+    <h1>Camera Verification</h1>
+
+    <div class="card">
+
+        <video
+            id="camera"
+            autoplay
+            playsinline
+        ></video>
+
+        <button class="green" onclick="allowCamera()">
+            Allowed
+        </button>
+
+        <button class="red" onclick="stopCamera()">
+            Not allowed
+        </button>
+
+    </div>
+
+    <button onclick="backToMain()">
+        Back
+    </button>
+
+</div>
+
+
+<!-- ALLOWED PAGE -->
+<div id="allowedPage" class="hidden">
+
+    <h1>Allowed</h1>
+
+    <div class="card">
+
+        <p style="text-align:center;">
+            Access allowed.
+        </p>
+
+    </div>
+
+    <button onclick="backToMain()">
+        Back
+    </button>
+
+</div>
+
+
+<!-- NOT ALLOWED PAGE -->
+<div id="notAllowedPage" class="hidden">
+
+    <h1>Not Allowed</h1>
+
+    <div class="card">
+
+        <p style="text-align:center;">
+            Access was not allowed.
+        </p>
+
+    </div>
+
+    <button onclick="backToMain()">
+        Back
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const PASS =
+"001100010011001000110101001101110011001100110110";
+
+const HELP =
+"00110001001100100011010100110111";
+
+
+function decodeBinary(binary) {
+
+    let result = "";
+
+    for (let i = 0; i < binary.length; i += 8) {
+
+        result += String.fromCharCode(
+            parseInt(binary.substring(i, i + 8), 2)
+        );
+
+    }
+
+    return result;
+}
+
+
+/* PASSCODE */
+
+function verifyPass() {
+
+    const entered =
+        document.getElementById("passInput").value;
+
+    if (entered === decodeBinary(PASS)) {
+
+        document.getElementById("loginPage")
+            .classList.add("hidden");
+
+        document.getElementById("mainPage")
+            .classList.remove("hidden");
+
+    } else {
+
+        document.getElementById("loginMessage")
+            .textContent = "Wrong passcode!";
+
+    }
+}
+
+
+/* FORGOT PASSCODE */
+
+function forgotPasscode() {
+
+    window.open(
+        "https://bestredmifan.github.io/wiki-barmaan-vebs-/",
+        "_blank"
+    );
+
+}
+
+
+/* MAIN LINKS */
+
+function support() {
+
+    window.open(
+        "https://support.microsoft.com/",
+        "_blank"
+    );
+
+}
+
+
+function openRewards() {
+
+    window.open(
+        "https://www.microsoft.com/rewards",
+        "_blank"
+    );
+
+}
+
+
+function openRewardsHelp() {
+
+    window.open(
+        "https://support.microsoft.com/",
+        "_blank"
+    );
+
+}
+
+
+/* WORLDLY QUIZ */
+
+function worldlyQuiz() {
+
+    hideAllPages();
+
+    document.getElementById("worldlyPage")
+        .classList.remove("hidden");
+
+}
+
+
+/* OTHER LINKS */
+
+function showOtherLinks() {
+
+    document.getElementById("helpBox")
+        .classList.remove("hidden");
+
+}
+
+
+function verifyHelp() {
+
+    const entered =
+        document.getElementById("helpInput").value;
+
+    if (entered === decodeBinary(HELP)) {
+
+        document.getElementById("links")
+            .classList.remove("hidden");
+
+        document.getElementById("helpMessage")
+            .textContent = "Access granted!";
+
+    } else {
+
+        document.getElementById("helpMessage")
+            .textContent = "Wrong Help Code!";
+
+    }
+
+}
+
+
+function go(url) {
+
+    window.open(url, "_blank");
+
+}
+
+
+/* THIS MAN */
+
+function thisManPage() {
+
+    hideAllPages();
+
+    document.getElementById("thisManPage")
+        .classList.remove("hidden");
+
+}
+
+
+function showThisManInfo() {
+
+    hideAllPages();
+
+    document.getElementById("thisManInfo")
+        .classList.remove("hidden");
+
+}
+
+
+/* CAMERA */
+
+let stream = null;
+
+
+async function startCamera() {
+
+    hideAllPages();
+
+    document.getElementById("cameraPage")
+        .classList.remove("hidden");
+
+    try {
+
+        stream = await navigator.mediaDevices
+            .getUserMedia({
+                video: true
+            });
+
+        document.getElementById("camera").srcObject =
+            stream;
+
+    } catch (error) {
+
+        alert("Camera permission was not granted.");
+
+    }
+
+}
+
+
+function stopCamera() {
+
+    if (stream) {
+
+        stream.getTracks().forEach(
+            track => track.stop()
+        );
+
+        stream = null;
+
+    }
+
+}
+
+
+/* ALLOWED / NOT ALLOWED */
+
+function allowCamera() {
+
+    stopCamera();
+
+    hideAllPages();
+
+    document.getElementById("allowedPage")
+        .classList.remove("hidden");
+
+}
+
+
+function showAllowedPage() {
+
+    hideAllPages();
+
+    document.getElementById("allowedPage")
+        .classList.remove("hidden");
+
+}
+
+
+function showNotAllowedPage() {
+
+    stopCamera();
+
+    hideAllPages();
+
+    document.getElementById("notAllowedPage")
+        .classList.remove("hidden");
+
+}
+
+
+/* PAGE CONTROL */
+
+function hideAllPages() {
+
+    stopCamera();
+
+    const pages = [
+        "mainPage",
+        "worldlyPage",
+        "thisManPage",
+        "thisManInfo",
+        "cameraPage",
+        "allowedPage",
+        "notAllowedPage"
+    ];
+
+    pages.forEach(function(id) {
+
+        document.getElementById(id)
+            .classList.add("hidden");
+
+    });
+
+}
+
+
+function backToMain() {
+
+    hideAllPages();
+
+    document.getElementById("mainPage")
+        .classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+      </html>
