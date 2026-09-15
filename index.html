@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barmaan Personal Web</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #101827, #243b72);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.box {
+    width: min(92%, 600px);
+    padding: 28px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.10);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 45px rgba(0,0,0,.45);
+    text-align: center;
+}
+
+h1 {
+    margin-top: 0;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+    border: 0;
+    border-radius: 12px;
+    font-size: 18px;
+    text-align: center;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    margin: 7px 0;
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    background: #2563eb;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform .1s, opacity .1s;
+}
+
+button:active {
+    transform: scale(.98);
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.green {
+    background: #15803d;
+}
+
+.gray {
+    background: #475569;
+}
+
+.red {
+    background: #b91c1c;
+}
+
+.orange {
+    background: #d97706;
+}
+
+.hidden {
+    display: none;
+}
+
+.error {
+    color: #ff9999;
+}
+
+.success {
+    color: #86efac;
+}
+
+.info {
+    text-align: left;
+    line-height: 1.6;
+    max-height: 350px;
+    overflow: auto;
+}
+
+video,
+canvas {
+    width: 100%;
+    border-radius: 16px;
+    margin-top: 10px;
+}
+
+#selfiePreview {
+    max-width: 100%;
+    border-radius: 16px;
+}
+
+.mainButtons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.mainButtons button {
+    margin: 0;
+}
+
+.otherLinks {
+    margin-top: 15px;
+}
+
+@media (max-width: 500px) {
+    .mainButtons {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<!-- LOGIN -->
+
+<div id="login">
+
+<h1>Welcome Barmaan!</h1>
+
+<p>Enter passcode</p>
+
+<input
+    id="passcode"
+    type="password"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    autocomplete="off"
+    placeholder="Passcode"
+>
+
+<button onclick="login()">
+    Enter
+</button>
+
+<button
+    class="gray"
+    onclick="forgotPasscode()"
+>
+    Forgot passcode?
+</button>
+
+<p id="loginError" class="error"></p>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div id="main" class="hidden">
+
+<h1>Welcome!</h1>
+
+<p>
+    Barmaan Personal Web
+</p>
+
+
+<!-- MAIN BUTTONS -->
+
+<div class="mainButtons">
+
+    <button onclick="support()">
+        Microsoft Support Web
+    </button>
+
+    <button onclick="go('https://bestredmifan.github.io/wiki-barmaan-vebs-/')">
+        This web wiki
+    </button>
+
+    <button onclick="externalWeb('https://vclock.com/')">
+        Alarms
+    </button>
+
+    <button onclick="externalWeb('https://vclock.com/stopwatch/')">
+        Stopwatch
+    </button>
+
+    <button onclick="openRewards()">
+        Microsoft Rewards
+    </button>
+
+    <button onclick="openRewardsHelp()">
+        Microsoft Rewards Help
+    </button>
+
+    <button onclick="worldlyQuiz()">
+        Worldly quiz (limited version)
+    </button>
+
+</div>
+
+
+<!-- HELP CODE -->
+
+<button
+    class="orange"
+    onclick="showHelp()"
+>
+    Open Other Links
+</button>
+
+
+<div id="help" class="hidden">
+
+    <p>
+        Enter help code to continue
+    </p>
+
+    <input
+        id="helpCode"
+        type="password"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        autocomplete="off"
+        placeholder="Help code"
+    >
+
+    <button onclick="verifyHelp()">
+        Unlock
+    </button>
+
+    <p id="helpError" class="error"></p>
+
+</div>
+
+
+<!-- OTHER LINKS -->
+
+<div id="links" class="hidden">
+
+<div class="otherLinks">
+
+    <button onclick="go('https://adoption.microsoft.com/')">
+        Microsoft Adoption
+    </button>
+
+    <button onclick="go('https://account.microsoft.com/')">
+        Microsoft Account
+    </button>
+
+    <button onclick="go('https://www.microsoft.com')">
+        Microsoft Main Website
+    </button>
+
+    <button onclick="go('https://forms.office.com/')">
+        Microsoft Forms
+    </button>
+
+    <button onclick="go('https://sway.cloud.microsoft/')">
+        Microsoft Sway
+    </button>
+
+    <button onclick="go('https://www.google.com/travel/')">
+        Google Travel
+    </button>
+
+    <!-- ADDED: WORLDLY QUIZ FULL ACCESS -->
+
+    <button onclick="go('https://poki.com/en/quiz')">
+        Worldly quiz (fully access)
+    </button>
+
+    <button onclick="go('https://myactivity.google.com/')">
+        Google Activity
+    </button>
+
+    <button onclick="go('https://online-camera.com/')">
+        Camera Services
+    </button>
+
+    <!-- ADDED: DOWNLOAD GAMES FOR ANDROID -->
+
+    <button onclick="go('https://play.google.com/store/apps/details?id=com.poki.playground')">
+        Download games for Android
+    </button>
+
+    <!-- ADDED: GAMES -->
+
+    <button onclick="go('https://poki.com/')">
+        Games
+    </button>
+
+    <button onclick="go('https://www.google.com')">
+        Google Main Web Page
+    </button>
+
+    <button onclick="thisMan()">
+        This Man Web Page (Verify age needed)
+    </button>
+
+    <button onclick="externalWeb('https://vclock.com/timer/')">
+        Timer
+    </button>
+
+    <button onclick="externalWeb('https://vclock.com/time/')">
+        World Clock
+    </button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- WORLDLY QUIZ WARNING -->
+
+<div id="worldlyPage" class="hidden">
+
+<h1>Worldly Quiz</h1>
+
+<p>
+    The worldly quiz is not maiden by barmaan personal web
+</p>
+
+<button onclick="worldlyInformation()">
+    More information
+</button>
+
+<button
+    class="green"
+    onclick="openWorldlyAnyway()"
+>
+    Open anyway
+</button>
+
+<button
+    class="gray"
+    onclick="home()"
+>
+    Cancel
+</button>
+
+</div>
+
+
+<!-- WORLDLY INFORMATION -->
+
+<div id="worldlyInfo" class="hidden">
+
+<h1>More Information</h1>
+
+<div class="info">
+
+<p>
+    Barmaan and chatgpt tryed to make a perfectly game
+    with HTML/CSS/JS but isn't complete, for this barmaan
+    found a good another web page quiz inside it you can
+    play online but that website isn't made by barmaan
+    personal web
+</p>
+
+</div>
+
+<button
+    class="green"
+    onclick="openWorldlyAnyway()"
+>
+    Now open the web
+</button>
+
+<button
+    class="gray"
+    onclick="backWorldly()"
+>
+    Back
+</button>
+
+</div>
+
+
+<!-- EXTERNAL WEB ERROR -->
+
+<div id="externalError" class="hidden">
+
+<h1>Error</h1>
+
+<p>
+    The web page is not made by barmaan
+    barmaan wanted to find another web page
+</p>
+
+<button
+    class="green"
+    onclick="openExternalAnyway()"
+>
+    Open anyway
+</button>
+
+<button
+    class="gray"
+    onclick="home()"
+>
+    Back
+</button>
+
+</div>
+
+
+<!-- THIS MAN -->
+
+<div id="thisMan" class="hidden">
+
+<h1>Verify Needed!</h1>
+
+<p>
+    Age verification is required.
+</p>
+
+<button class="green" onclick="verifyPage()">
+    Verify age
+</button>
+
+<button class="gray" onclick="home()">
+    Cancel
+</button>
+
+<button class="gray" onclick="information()">
+    More information
+</button>
+
+</div>
+
+
+<!-- INFORMATION -->
+
+<div id="infoPage" class="hidden">
+
+<h1>More Information</h1>
+
+<div class="info">
+
+<p>
+    We want you to feel comfortable and safe.
+    Through age verification, we try to make sure
+    that visitors are between 10 and 70 years old.
+</p>
+
+<p>
+    If someone below this age range enters the
+    website, they may encounter:
+</p>
+
+<ul>
+
+<li>
+    A mysterious image
+</li>
+
+<li>
+    Content that could make it difficult to sleep
+</li>
+
+<li>
+    Talking to someone online without parental permission
+</li>
+
+<li>
+    Doing inappropriate or bad things in front of others
+</li>
+
+<li>
+    Other potentially dangerous situations
+</li>
+
+</ul>
+
+<p>
+    Barmaan Personal Web Center
+</p>
+
+<p>
+    Thank you.
+</p>
+
+<p>
+    Website created by Barmaan Hajiyan.
+</p>
+
+<p>
+    Thanks to ChatGPT.
+</p>
+
+</div>
+
+<button onclick="backThisMan()">
+    Back
+</button>
+
+</div>
+
+
+<!-- VERIFY AGE -->
+
+<div id="verifyPage" class="hidden">
+
+<h1>Verify Age</h1>
+
+<p>
+    Take a selfie of yourself.
+</p>
+
+<p>
+    The selfie stays on this page.
+    It is not sent to an email or account.
+</p>
+
+<video
+    id="camera"
+    autoplay
+    playsinline
+    class="hidden">
+</video>
+
+<button onclick="startCamera()">
+    Take a selfie
+</button>
+
+<button
+    id="capture"
+    class="green hidden"
+    onclick="captureSelfie()">
+    Capture Selfie
+</button>
+
+<canvas
+    id="canvas"
+    class="hidden">
+</canvas>
+
+<img
+    id="selfiePreview"
+    class="hidden"
+>
+
+<div id="decision" class="hidden">
+
+<p>
+    <b>Selfie captured.</b>
+</p>
+
+<p>
+    Choose an option:
+</p>
+
+<button
+    class="green"
+    onclick="allowed()"
+>
+    Allowed
+</button>
+
+<button
+    class="red"
+    onclick="notAllowed()"
+>
+    Not allowed
+</button>
+
+</div>
+
+<p id="result"></p>
+
+<button
+    class="gray"
+    onclick="backThisMan()"
+>
+    Cancel
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+/*
+==================================================
+PASSCODE IN BINARY
+==================================================
+
+125736
+*/
+
+const PASS =
+"001100010011001000110101001101110011001100110110";
+
+
+/*
+==================================================
+HELP CODE
+==================================================
+
+1257
+*/
+
+const HELP =
+"00110001001100100011010100110111";
+
+
+/*
+==================================================
+WORLDLY QUIZ URL
+==================================================
+*/
+
+const WORLDLY_URL =
+"https://v4.brainhq.com/land/braingames?utm_source=google&utm_medium=cpc&utm_campaign=brain_games&utm_content=21348845999+701285839844&utm_term=brain%20games&gad_source=1&gad_campaignid=21348845999&gclid=Cj0KCQjwk5nVBhDiARIsAHNGqafn7_fN-SgwHf3t3_STUA57rDzaGPZXWh87GFm6j1OA3DWvwFBZgrwaAqH7EALw_wcB";
+
+
+/*
+==================================================
+EXTERNAL WEB URL
+==================================================
+*/
+
+let externalURL = "";
+
+
+/*
+==================================================
+BINARY TO TEXT
+==================================================
+*/
+
+function binaryToText(binary) {
+
+    let text = "";
+
+    for (
+        let i = 0;
+        i < binary.length;
+        i += 8
+    ) {
+
+        text += String.fromCharCode(
+            parseInt(
+                binary.substring(i, i + 8),
+                2
+            )
+        );
+
+    }
+
+    return text;
+}
+
+
+/*
+==================================================
+LOGIN
+==================================================
+*/
+
+function login() {
+
+    const entered =
+        document.getElementById("passcode").value;
+
+    if (
+        entered === binaryToText(PASS)
+    ) {
+
+        document
+            .getElementById("login")
+            .classList.add("hidden");
+
+        document
+            .getElementById("main")
+            .classList.remove("hidden");
+
+    } else {
+
+        document
+            .getElementById("loginError")
+            .textContent =
+            "Incorrect passcode.";
+
+    }
+
+}
+
+
+/*
+==================================================
+FORGOT PASSCODE
+==================================================
+*/
+
+function forgotPasscode() {
+
+    window.open(
+        "https://bestredmifan.github.io/wiki-barmaan-vebs-/",
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+MICROSOFT SUPPORT
+==================================================
+*/
+
+function support() {
+
+    window.open(
+        "https://support.microsoft.com/",
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+MICROSOFT REWARDS
+==================================================
+*/
+
+function openRewards() {
+
+    window.open(
+        "https://www.microsoft.com/rewards",
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+MICROSOFT REWARDS HELP
+==================================================
+*/
+
+function openRewardsHelp() {
+
+    window.open(
+        "https://support.microsoft.com/",
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+WORLDLY QUIZ
+==================================================
+*/
+
+function worldlyQuiz() {
+
+    document
+        .getElementById("main")
+        .classList.add("hidden");
+
+    document
+        .getElementById("worldlyPage")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+WORLDLY INFORMATION
+==================================================
+*/
+
+function worldlyInformation() {
+
+    document
+        .getElementById("worldlyPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("worldlyInfo")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+OPEN WORLDLY ANYWAY
+==================================================
+*/
+
+function openWorldlyAnyway() {
+
+    window.open(
+        WORLDLY_URL,
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+BACK FROM WORLDLY INFORMATION
+==================================================
+*/
+
+function backWorldly() {
+
+    document
+        .getElementById("worldlyInfo")
+        .classList.add("hidden");
+
+    document
+        .getElementById("worldlyPage")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+EXTERNAL WEB WARNING
+==================================================
+*/
+
+function externalWeb(url) {
+
+    externalURL = url;
+
+    document
+        .getElementById("main")
+        .classList.add("hidden");
+
+    document
+        .getElementById("externalError")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+OPEN EXTERNAL WEB ANYWAY
+==================================================
+*/
+
+function openExternalAnyway() {
+
+    window.open(
+        externalURL,
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+SHOW HELP CODE
+==================================================
+*/
+
+function showHelp() {
+
+    document
+        .getElementById("help")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+VERIFY HELP CODE
+==================================================
+*/
+
+function verifyHelp() {
+
+    const entered =
+        document.getElementById("helpCode").value;
+
+    if (
+        entered === binaryToText(HELP)
+    ) {
+
+        document
+            .getElementById("help")
+            .classList.add("hidden");
+
+        document
+            .getElementById("links")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("helpError")
+            .textContent = "";
+
+    } else {
+
+        document
+            .getElementById("helpError")
+            .textContent =
+            "Incorrect help code.";
+
+    }
+
+}
+
+
+/*
+==================================================
+NORMAL LINKS
+==================================================
+*/
+
+function go(url) {
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+/*
+==================================================
+THIS MAN
+==================================================
+*/
+
+function thisMan() {
+
+    document
+        .getElementById("main")
+        .classList.add("hidden");
+
+    document
+        .getElementById("thisMan")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+HOME
+==================================================
+*/
+
+function home() {
+
+    stopCamera();
+
+    document
+        .getElementById("worldlyPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("worldlyInfo")
+        .classList.add("hidden");
+
+    document
+        .getElementById("externalError")
+        .classList.add("hidden");
+
+    document
+        .getElementById("thisMan")
+        .classList.add("hidden");
+
+    document
+        .getElementById("verifyPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("infoPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("main")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+INFORMATION
+==================================================
+*/
+
+function information() {
+
+    document
+        .getElementById("thisMan")
+        .classList.add("hidden");
+
+    document
+        .getElementById("infoPage")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+BACK TO THIS MAN
+==================================================
+*/
+
+function backThisMan() {
+
+    stopCamera();
+
+    document
+        .getElementById("infoPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("verifyPage")
+        .classList.add("hidden");
+
+    document
+        .getElementById("thisMan")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+VERIFY PAGE
+==================================================
+*/
+
+function verifyPage() {
+
+    document
+        .getElementById("thisMan")
+        .classList.add("hidden");
+
+    document
+        .getElementById("verifyPage")
+        .classList.remove("hidden");
+
+}
+
+
+/*
+==================================================
+CAMERA
+==================================================
+*/
+
+let stream = null;
+
+async function startCamera() {
+
+    try {
+
+        stream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video: {
+                    facingMode: "user"
+                },
+
+                audio: false
+
+            });
+
+        const video =
+            document.getElementById("camera");
+
+        video.srcObject =
+            stream;
+
+        video.classList.remove("hidden");
+
+        document
+            .getElementById("capture")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("result")
+            .textContent = "";
+
+    } catch (error) {
+
+        document
+            .getElementById("result")
+            .textContent =
+            "Camera permission was not granted.";
+
+    }
+
+}
+
+
+/*
+==================================================
+CAPTURE SELFIE
+==================================================
+*/
+
+function captureSelfie() {
+
+    const video =
+        document.getElementById("camera");
+
+    const canvas =
+        document.getElementById("canvas");
+
+    const image =
+        document.getElementById("selfiePreview");
+
+    canvas.width =
+        video.videoWidth;
+
+    canvas.height =
+        video.videoHeight;
+
+    const context =
+        canvas.getContext("2d");
+
+    context.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    image.src =
+        canvas.toDataURL("image/jpeg");
+
+    image.classList.remove("hidden");
+
+    document
+        .getElementById("decision")
+        .classList.remove("hidden");
+
+    stopCamera();
+
+}
+
+
+/*
+==================================================
+ALLOWED
+==================================================
+*/
+
+function allowed() {
+
+    document
+        .getElementById("result")
+        .textContent =
+        "Allowed. You can continue to This Man.";
+
+    document
+        .getElementById("decision")
+        .classList.add("hidden");
+
+    setTimeout(() => {
+
+        window.open(
+            "https://www.thisman.org",
+            "_blank"
+        );
+
+    }, 500);
+
+}
+
+
+/*
+==================================================
+NOT ALLOWED
+==================================================
+*/
+
+function notAllowed() {
+
+    document
+        .getElementById("result")
+        .textContent =
+        "Not allowed.";
+
+    document
+        .getElementById("decision")
+        .classList.add("hidden");
+
+}
+
+
+/*
+==================================================
+STOP CAMERA
+==================================================
+*/
+
+function stopCamera() {
+
+    if (stream) {
+
+        stream
+            .getTracks()
+            .forEach(track => track.stop());
+
+        stream = null;
+
+    }
+
+}
+
+</script>
+
+</body>
+      </html>
