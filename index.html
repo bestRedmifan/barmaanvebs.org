@@ -1,0 +1,742 @@
+<!-- SETTINGS -->
+
+<section id="settings" class="page">
+
+<button type="button"
+class="btn secondary back"
+onclick="showPage('home')">
+← Back Home
+</button>
+
+<h1 class="title">⚙️ Settings</h1>
+
+<p class="subtitle">
+Customize your Barmaan Vebs experience.
+</p>
+
+<div class="setting">
+
+<div>
+<strong>Appearance</strong>
+<small>Choose between dark and light mode.</small>
+</div>
+
+<select id="themeSelect" onchange="changeTheme(this.value)">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+</select>
+
+</div>
+
+
+<div class="setting">
+
+<div>
+<strong>Website Status</strong>
+<small>Current local website status.</small>
+</div>
+
+<strong>🟢 Online</strong>
+
+</div>
+
+
+<div class="setting">
+
+<div>
+<strong>Saved Notes</strong>
+<small>Manage notes stored in this browser.</small>
+</div>
+
+<button type="button"
+class="btn red"
+onclick="deleteNotes()">
+Delete Notes
+</button>
+
+</div>
+
+
+<div class="setting">
+
+<div>
+<strong>Reset Settings</strong>
+<small>Return the website appearance to its default.</small>
+</div>
+
+<button type="button"
+class="btn secondary"
+onclick="resetSettings()">
+Reset
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<footer>
+Barmaan Vebs • Personal Web Hub
+</footer>
+
+
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+let cameraStream = null;
+
+let eyeInterval = null;
+let eyeSeconds = 30;
+
+let toastTimeout = null;
+
+
+/* =========================
+   PAGE NAVIGATION
+========================= */
+
+function showPage(pageId){
+
+    const pages = document.querySelectorAll(".page");
+
+    pages.forEach(page => {
+        page.classList.remove("active");
+    });
+
+    const target = document.getElementById(pageId);
+
+    if(target){
+        target.classList.add("active");
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+    }
+
+    if(pageId !== "camera"){
+        stopCamera();
+    }
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function showToast(message){
+
+    const toast = document.getElementById("toast");
+
+    if(!toast) return;
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimeout);
+
+    toastTimeout = setTimeout(() => {
+        toast.classList.remove("show");
+    },3000);
+}
+
+
+/* =========================
+   WIKI
+========================= */
+
+function openWiki(id){
+
+    const details = document.querySelectorAll("#wikiDetails .info");
+
+    details.forEach(item => {
+        item.classList.add("hidden");
+    });
+
+    const target = document.getElementById(id);
+
+    if(target){
+        target.classList.remove("hidden");
+
+        target.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+    }
+}
+
+
+const searchForm = document.getElementById("searchForm");
+
+if(searchForm){
+
+    searchForm.addEventListener("submit",function(event){
+
+        event.preventDefault();
+
+        searchWiki();
+
+    });
+
+}
+
+
+function searchWiki(){
+
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("searchResults");
+    const cards = document.querySelectorAll(".wikiCard");
+
+    if(!input || !results) return;
+
+    const query = input.value.trim().toLowerCase();
+
+    results.innerHTML = "";
+
+    cards.forEach(card => {
+        card.style.display = "none";
+    });
+
+    if(!query){
+
+        cards.forEach(card => {
+            card.style.display = "";
+        });
+
+        return;
+    }
+
+
+    let found = 0;
+
+    cards.forEach(card => {
+
+        const title =
+            (card.dataset.title || "").toLowerCase();
+
+        const keywords =
+            (card.dataset.keywords || "").toLowerCase();
+
+        const text =
+            card.textContent.toLowerCase();
+
+        const matches =
+            title.includes(query) ||
+            keywords.includes(query) ||
+            text.includes(query);
+
+
+        if(matches){
+
+            found++;
+
+            const clone = card.cloneNode(true);
+
+            clone.style.display = "";
+
+            results.appendChild(clone);
+        }
+
+    });
+
+
+    if(found === 0){
+
+        results.innerHTML = `
+            <div class="info">
+                <h3>🔎 No results found</h3>
+                <p>
+                    No Wiki page matched
+                    "<strong>${escapeHTML(query)}</strong>".
+                </p>
+            </div>
+        `;
+
+    }
+
+}
+
+
+function clearSearch(){
+
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("searchResults");
+    const cards = document.querySelectorAll(".wikiCard");
+
+    if(input){
+        input.value = "";
+    }
+
+    if(results){
+        results.innerHTML = "";
+    }
+
+    cards.forEach(card => {
+        card.style.display = "";
+    });
+
+}
+
+
+/* =========================
+   CAMERA SERVICES
+========================= */
+
+async function startCamera(){
+
+    const video =
+        document.getElementById("cameraPreview");
+
+    const status =
+        document.getElementById("cameraStatus");
+
+
+    if(!video || !status) return;
+
+
+    if(!navigator.mediaDevices ||
+       !navigator.mediaDevices.getUserMedia){
+
+        status.textContent =
+            "❌ Camera access is not supported by this browser.";
+
+        return;
+    }
+
+
+    try{
+
+        if(cameraStream){
+            stopCamera();
+        }
+
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+                video:true,
+                audio:false
+            });
+
+
+        video.srcObject = cameraStream;
+
+        video.style.display = "block";
+
+        status.textContent =
+            "🟢 Camera is running.";
+
+    }
+    catch(error){
+
+        console.error("Camera error:",error);
+
+        video.style.display = "none";
+
+        if(error.name === "NotAllowedError"){
+
+            status.textContent =
+                "❌ Camera permission was denied.";
+
+        }
+        else if(error.name === "NotFoundError"){
+
+            status.textContent =
+                "❌ No camera was found.";
+
+        }
+        else{
+
+            status.textContent =
+                "❌ Unable to start camera: " +
+                error.message;
+        }
+
+    }
+
+}
+
+
+function stopCamera(){
+
+    const video =
+        document.getElementById("cameraPreview");
+
+    const status =
+        document.getElementById("cameraStatus");
+
+
+    if(cameraStream){
+
+        cameraStream.getTracks().forEach(track => {
+            track.stop();
+        });
+
+        cameraStream = null;
+    }
+
+
+    if(video){
+
+        video.srcObject = null;
+        video.style.display = "none";
+
+    }
+
+
+    if(status){
+
+        status.textContent =
+            "Camera is currently stopped.";
+
+    }
+
+}
+
+
+/* =========================
+   EYE EXERCISE
+========================= */
+
+function startEyeExercise(){
+
+    if(eyeInterval) return;
+
+    const timer =
+        document.getElementById("eyeTimer");
+
+    const target =
+        document.getElementById("eyeTarget");
+
+
+    if(!timer || !target) return;
+
+
+    eyeInterval = setInterval(() => {
+
+        eyeSeconds--;
+
+        if(eyeSeconds <= 0){
+
+            eyeSeconds = 0;
+
+            timer.textContent = eyeSeconds;
+
+            stopEyeExercise();
+
+            showToast("👁️ Exercise complete!");
+
+            return;
+        }
+
+
+        timer.textContent = eyeSeconds;
+
+
+        const x =
+            Math.random() * 80 - 40;
+
+        const y =
+            Math.random() * 80 - 40;
+
+
+        target.style.transform =
+            `translate(${x}px,${y}px)`;
+
+    },1000);
+
+}
+
+
+function stopEyeExercise(){
+
+    if(eyeInterval){
+
+        clearInterval(eyeInterval);
+
+        eyeInterval = null;
+
+    }
+
+}
+
+
+function resetEyeExercise(){
+
+    stopEyeExercise();
+
+    eyeSeconds = 30;
+
+    const timer =
+        document.getElementById("eyeTimer");
+
+    const target =
+        document.getElementById("eyeTarget");
+
+
+    if(timer){
+        timer.textContent = "30";
+    }
+
+    if(target){
+        target.style.transform = "translate(0,0)";
+    }
+
+}
+
+
+/* =========================
+   NOTES
+========================= */
+
+function saveNotes(){
+
+    const area =
+        document.getElementById("notesArea");
+
+    if(!area) return;
+
+
+    try{
+
+        localStorage.setItem(
+            "barmaanVebsNotes",
+            area.value
+        );
+
+        showToast("💾 Notes saved!");
+
+    }
+    catch(error){
+
+        console.error("Save notes error:",error);
+
+        showToast("❌ Could not save notes.");
+
+    }
+
+}
+
+
+function loadNotes(){
+
+    const area =
+        document.getElementById("notesArea");
+
+    if(!area) return;
+
+
+    try{
+
+        const saved =
+            localStorage.getItem("barmaanVebsNotes");
+
+
+        if(saved !== null){
+
+            area.value = saved;
+
+            showToast("↻ Notes loaded!");
+
+        }
+        else{
+
+            area.value = "";
+
+            showToast("ℹ️ No saved notes found.");
+
+        }
+
+    }
+    catch(error){
+
+        console.error("Load notes error:",error);
+
+        showToast("❌ Could not load notes.");
+
+    }
+
+}
+
+
+function deleteNotes(){
+
+    try{
+
+        localStorage.removeItem("barmaanVebsNotes");
+
+        const area =
+            document.getElementById("notesArea");
+
+        if(area){
+            area.value = "";
+        }
+
+        showToast("🗑 Notes deleted.");
+
+    }
+    catch(error){
+
+        console.error("Delete notes error:",error);
+
+        showToast("❌ Could not delete notes.");
+
+    }
+
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function changeTheme(theme){
+
+    if(theme === "light"){
+
+        document.body.classList.add("light");
+
+    }
+    else{
+
+        document.body.classList.remove("light");
+
+    }
+
+
+    try{
+
+        localStorage.setItem(
+            "barmaanVebsTheme",
+            theme
+        );
+
+    }
+    catch(error){
+
+        console.warn("Theme could not be saved.",error);
+
+    }
+
+}
+
+
+function loadTheme(){
+
+    let theme = "dark";
+
+
+    try{
+
+        const saved =
+            localStorage.getItem("barmaanVebsTheme");
+
+        if(saved === "light" || saved === "dark"){
+            theme = saved;
+        }
+
+    }
+    catch(error){
+
+        console.warn("Theme could not be loaded.",error);
+
+    }
+
+
+    changeTheme(theme);
+
+
+    const select =
+        document.getElementById("themeSelect");
+
+    if(select){
+        select.value = theme;
+    }
+
+}
+
+
+function resetSettings(){
+
+    try{
+
+        localStorage.removeItem("barmaanVebsTheme");
+
+    }
+    catch(error){
+
+        console.warn(error);
+
+    }
+
+
+    changeTheme("dark");
+
+
+    const select =
+        document.getElementById("themeSelect");
+
+    if(select){
+        select.value = "dark";
+    }
+
+
+    showToast("⚙️ Settings reset.");
+
+}
+
+
+/* =========================
+   HTML ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = value;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   INITIALIZATION
+========================= */
+
+document.addEventListener("DOMContentLoaded",() => {
+
+    loadTheme();
+
+    loadNotes();
+
+    resetEyeExercise();
+
+});
+
+
+/* =========================
+   PAGE VISIBILITY SAFETY
+========================= */
+
+document.addEventListener(
+    "visibilitychange",
+    () => {
+
+        if(document.hidden){
+
+            stopEyeExercise();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
